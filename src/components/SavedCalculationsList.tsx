@@ -20,7 +20,7 @@ export function SavedCalculationsList({ onSelect, onBackToCalc }: Props) {
   const [renamingId, setRenamingId] = useState<string | null>(null)
   const [renameValue, setRenameValue] = useState('')
   const [filterCollaId, setFilterCollaId] = useState<string>('all')
-  const [sortBy, setSortBy] = useState<SortOption>('recent')
+  const [sortBy, setSortBy] = useState<SortOption>('high')
 
   const usedCollaIds = useMemo(() => {
     const ids = new Set<string>()

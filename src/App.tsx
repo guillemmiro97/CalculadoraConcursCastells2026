@@ -13,7 +13,7 @@ import { SavedCalculationDetail } from './components/SavedCalculationDetail'
 import { saveCalculation, updateSavedCalculation } from './storage/savedCalculations'
 import { getCollaById } from './data/colles2026'
 import { formatPoints } from './utils/format'
-import { Calculator, Table2, BookOpen, Share2, Trash2, AlertTriangle, Bookmark, X, Plus } from 'lucide-react'
+import { Calculator, Table2, BookOpen, Share2, Trash2, AlertTriangle, Bookmark, X, Plus, ExternalLink } from 'lucide-react'
 
 const TABS: { id: TabId; label: string; icon: typeof Calculator }[] = [
   { id: 'calculadora', label: 'Calculadora', icon: Calculator },
@@ -319,6 +319,16 @@ export default function App() {
                 <br />
                 <span className="about-value">0.1.0</span>
               </p>
+              <div className="about-links">
+                <a
+                  href="https://github.com/guillemmiro97/CalculadoraConcursCastells2026"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="about-link"
+                >
+                  Repositori a GitHub <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
           </div>
         </div>
