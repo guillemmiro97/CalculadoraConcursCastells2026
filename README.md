@@ -1,123 +1,66 @@
 # Calculadora Concurs de Castells 2026
 
-Calculadora no oficial del **XXX Concurs de Castells de Tarragona 2026**.
+[English version](README.en.md)
+
+Calculadora independent i no oficial del **XXX Concurs de Castells de Tarragona 2026**. Simula les cinc rondes d'una colla i calcula la puntuació segons la taula i les normes oficials de 2026.
+
+**Prova l'app en directe:** [calculador-concurs-castells.web.app](https://calculador-concurs-castells.web.app/)
 
 Cinc rondes. Tres castells que compten. Fes números.
 
-## Inici ràpid
+## Funcionalitats
+
+- **Simulació de cinc rondes:** tria un castell i indica si s'ha descarregat, carregat, ha estat un intent o un intent desmuntat.
+- **Puntuació automàtica:** mostra el total en temps real i el desglossament dels castells que compten i els exclosos, amb el motiu de l'exclusió.
+- **Còmput de puntuació:** selecciona la millor combinació de fins a tres construccions vàlides, amb un màxim de dos carregats; els intents no puntuen i, si es repeteix una construcció, es considera el resultat que dona més punts.
+- **Cercador de castells:** cerca per codi o nom i consulta'n les puntuacions oficials carregat/descarregat.
+- **Validació de regles:** informa de les incompatibilitats de base, dels intents màxims per construcció, de les excepcions de compatibilitat i de les restriccions de les rondes 4 i 5.
+- **Selecció de colla:** tria entre les 48 colles disponibles (42 participants del Concurs i 6 colles de la Diada Internacional), agrupades per sessió.
+- **Càlculs desats:** desa fins a 100 simulacions en el navegador. Es poden filtrar per colla, ordenar per puntuació o data, consultar, modificar, reanomenar, compartir o eliminar. Les dades desades són locals al navegador i dispositiu.
+- **Compartició:** comparteix un resum amb l'API nativa del dispositiu o el porta-retalls. La simulació també queda codificada al fragment de la URL, de manera que es pot compartir un enllaç que la restaura.
+- **PWA i mode sense connexió:** es pot instal·lar com a aplicació i, després de carregar-la, funciona sense connexió.
+- **Analítica opcional:** Google Analytics només s'activa si s'accepten les cookies; la decisió es pot canviar des de l'aplicació.
+
+## Normativa
+
+Les puntuacions i les regles implementades es basen en aquestes fonts oficials:
+
+- [Normes bàsiques 2026](https://www.concursdecastells.cat/normes-basiques-2026-cdc)
+- [Protocol de Plaça 2026](https://www.concursdecastells.cat/protocol-de-placa-2026-cdc)
+- [Taula de puntuacions 2026](https://www.concursdecastells.cat/taula-de-puntuacions-2026-cdc)
+
+La calculadora inclou les 47 construccions de la taula de puntuacions. Aplica el còmput de les tres millors, el límit de dos castells carregats, la deduplicació de construccions repetides, les incompatibilitats i excepcions del Protocol de Plaça, el màxim de dos intents per construcció i les restriccions de les rondes 4 i 5.
+
+No simula la valoració tècnica del Jurat ni les penalitzacions, el sorteig i patró d'actuació, el Rànquing Estrella, els pilars de comiat ni els temps màxims d'execució. Les penalitzacions poden afectar els desempats; l'app no les resta ni substitueix el Jurat. En cas de discrepància, preval la normativa oficial.
+
+## Desenvolupament local
+
+Requisits: Node.js i npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Obre http://localhost:5173 al navegador.
-
-## Comandes
+Obre l'adreça local que indiqui Vite (per defecte, http://localhost:5173).
 
 | Comanda | Descripció |
 |---|---|
-| `npm run dev` | Servidor de desenvolupament |
-| `npm run build` | Build de producció |
-| `npm run preview` | Previsualització del build |
+| `npm run dev` | Inicia el servidor de desenvolupament |
+| `npm run build` | Genera el build de producció |
+| `npm run preview` | Previsualitza el build de producció |
 | `npm test` | Executa els tests |
-| `npm run test:watch` | Tests en mode watch |
-| `npm run lint` | Linter (oxlint) |
-
-## Funcionalitats
-
-- **Calculadora en temps real**: Introdueix els resultats de cada ronda i veu la puntuació total instantàniament.
-- **Millors tres castells**: Només compten les tres millors construccions vàlides, amb desglossament de comptats i exclosos.
-- **Selecció ràpida**: Picker de castells amb cerca per codi, nom o tipus.
-- **Validació de regles**: Bloqueja combinacions invàlides segons el Protocol de Plaça 2026.
-- **Selecció de colla**: 42 colles del Concurs + 6 de la Diada Internacional, amb cerca i agrupació per sessió.
-- **Taula de puntuacions**: Consulta les 47 construccions oficials amb punts carregat/descarregat.
-- **Normes resum**: Resum de les regles clau amb enllaços a les fonts oficials.
-- **Desament**: Fins a 100 càlculs desats amb filtre, ordenació, rebombrament i restauració.
-- **Comparteix**: Genera un text resum de la simulació (Web Share API o portapapers).
-- **URL amb estat**: L'estat de la calculadora es codifica a la URL per compartir simulacions.
-- **PWA**: Funciona offline després de la primera visita.
-- **Persistència**: L'estat es guarda a localStorage.
-
-## Normativa implementada
-
-### Fonts oficials
-
-Totes les puntuacions i regles provenen de:
-
-- [Normes bàsiques 2026](https://www.concursdecastells.cat/normes-basiques-2026-cdc)
-- [Protocol de Plaça 2026](https://www.concursdecastells.cat/protocol-de-placa-2026-cdc)
-- [Taula de puntuacions 2026](https://www.concursdecastells.cat/taula-de-puntuacions-2026-cdc) (Ajuntament de Tarragona)
-
-### Regles implementades
-
-- **Puntuació**: Taula de 47 construccions amb punts carregat i descarregat oficials 2026.
-- **Millors tres castells**: La puntuació final és la suma de les tres millors construccions vàlides.
-- **Màxim dos carregats**: Com a màxim dos castells carregats contribueixen a la puntuació final.
-- **Castells duplicats**: Si un castell s'ha assolit dues vegades, només compta el de major puntuació.
-- **Intent i intent desmuntat**: No sumen cap punt.
-- **Màxim dos intents per construcció**: Una colla pot intentar una construcció com a màxim dues vegades.
-- **Incompatibilitat de base idèntica**: Llistat oficial d'incompatibilitats del Protocol de Plaça.
-- **Compatibilitats especials**: Excepcions oficials (ex: 4de9f compatible amb 4de9sf).
-- **Rondes 4 i 5**: Restriccions segons Article 8 de les Normes Bàsiques (castells superiors o reintents de carregats).
-- **Penalitzacions**: S'informa que afecten el desempat, però no se'n resten punts.
-
-### Regles NO simulades
-
-- Valoració tècnica del Jurat (penalitzacions per execució).
-- Patró d'actuació i sorteig de plaça.
-- Rànquing Estrella (sistema de classificació diferent del Concurs).
-- Pilars de comiat.
-- Temps màxims d'execució.
-
-## Estructura del projecte
-
-```
-src/
-├── main.tsx                 # Punt d'entrada
-├── App.tsx                  # Component arrel
-├── index.css                # Estils
-├── domain/                  # Lògica de negoci (pura, sense React)
-│   ├── types.ts             # Tipus: CastellCode, Round, ScoringResult...
-│   ├── scoring.ts           # Càlcul de puntuació, deduplicació, combinacions
-│   └── rules.ts             # Restriccions d'incompatibilitat, intents, rondes 4/5
-├── data/                    # Dades estàtiques
-│   ├── castells2026.ts      # 47 construccions amb punts
-│   └── colles2026.ts        # 42 colles del Concurs + 6 internacionals
-├── hooks/
-│   └── useCalculator.ts     # Hook principal d'estat
-├── storage/
-│   └── savedCalculations.ts # CRUD de càlculs desats (localStorage)
-├── utils/
-│   ├── share.ts             # Codificació d'estat a URL hash
-│   ├── format.ts            # Format de punts (ca-ES)
-│   └── color.ts             # Contrast de color WCAG
-├── components/              # Components React
-│   ├── RoundCard.tsx
-│   ├── CastellPicker.tsx
-│   ├── CollaPicker.tsx
-│   ├── CollaBadge.tsx
-│   ├── CollaAvatar.tsx
-│   ├── ScoreBreakdown.tsx
-│   ├── Taula.tsx
-│   ├── Normes.tsx
-│   ├── SavedCalculationsList.tsx
-│   └── SavedCalculationDetail.tsx
-└── __tests__/               # Tests
-    ├── scoring.test.ts
-    ├── savedCalculations.test.ts
-    └── colles2026.test.ts
-```
+| `npm run test:watch` | Executa els tests en mode watch |
+| `npm run lint` | Executa Oxlint |
 
 ## Tecnologia
 
-- **Frontend**: React 19 + TypeScript
-- **Build**: Vite 8
-- **Tests**: Vitest + Testing Library
-- **Lint**: oxlint
-- **PWA**: vite-plugin-pwa + Workbox
-- **Icones**: lucide-react
-- **Hosting**: Firebase Hosting (estàtic)
+- React 19 i TypeScript
+- Vite 8
+- Vitest i Testing Library
+- Oxlint
+- PWA amb `vite-plugin-pwa` i Workbox
+- Firebase Hosting
 
 ## Desplegament
 
@@ -126,8 +69,6 @@ npm run build
 firebase deploy --only hosting
 ```
 
-## Llicència
+## Crèdits i llicència
 
-Aquesta és una calculadora no oficial. No està afiliada a l'Ajuntament de Tarragona ni al Concurs de Castells.
-
-En cas de discrepància, preval sempre la normativa oficial del Concurs de Castells.
+Desenvolupament: [Guillem Miró](https://github.com/guillemmiro97/CalculadoraConcursCastells2026). Aplicació independent i no oficial, no afiliada a l'Ajuntament de Tarragona ni a l'organització del Concurs de Castells. Consulta la [llicència](LICENSE).
