@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { TabId, CastellResult, CastellCode } from './domain/types'
 import { useCalculator } from './hooks/useCalculator'
 import { RoundCard } from './components/RoundCard'
@@ -13,6 +13,7 @@ import { SavedCalculationDetail } from './components/SavedCalculationDetail'
 import { saveCalculation, updateSavedCalculation } from './storage/savedCalculations'
 import { getCollaById } from './data/colles2026'
 import { formatPoints } from './utils/format'
+import { track } from './analytics'
 import { Calculator, Table2, BookOpen, Share2, Trash2, AlertTriangle, Bookmark, X, Plus, ExternalLink } from 'lucide-react'
 
 const TABS: { id: TabId; label: string; icon: typeof Calculator }[] = [
@@ -80,6 +81,15 @@ export default function App() {
     }
   }, [])
 
+  const initialView = useRef(true)
+  useEffect(() => {
+    if (initialView.current) {
+      initialView.current = false
+      return
+    }
+    track('page_view', { page_path: `/${activeTab}`, page_title: activeTab })
+  }, [activeTab])
+
   const handleOpenPicker = (index: number) => setPickerRound(index)
   const handleClosePicker = () => setPickerRound(null)
 
@@ -102,6 +112,7 @@ export default function App() {
     } else {
       saveCalculation({ name: trimmed, rounds, collaId })
     }
+    track('save_calculation', { mode: editingCalcId ? 'update' : 'create', colla_id: collaId ?? null })
     setShowSaveDialog(false)
     setSavedToast(true)
     setTimeout(() => setSavedToast(false), 2000)
@@ -189,7 +200,7 @@ export default function App() {
               <Bookmark size={18} />
               <span>{editingCalcId ? "Actualitza" : "Desa"}</span>
             </button>
-            <button className="btn btn-share" onClick={share} aria-label="Comparteix la simulació">
+            <button className="btn btn-share" onClick={() => { track('share_calculation'); share() }} aria-label="Comparteix la simulació">
               <Share2 size={18} />
               <span>Comparteix</span>
             </button>
@@ -202,7 +213,7 @@ export default function App() {
               <div className="confirm-clear">
                 <AlertTriangle size={16} />
                 <span>Segur que vols esborrar-ho tot?</span>
-                <button className="btn btn-confirm-yes" onClick={clearAll}>Sí</button>
+                <button className="btn btn-confirm-yes" onClick={() => { track('clear_calculation'); clearAll() }}>Sí</button>
                 <button className="btn btn-confirm-no" onClick={() => setConfirmClear(false)}>No</button>
               </div>
             )}
@@ -293,7 +304,7 @@ export default function App() {
       {showCollaPicker && (
         <CollaPicker
           selectedId={collaId ?? null}
-          onSelect={(id) => setCollaId(id ?? undefined)}
+          onSelect={(id) => { track('select_colla', { colla_id: id }); setCollaId(id ?? undefined) }}
           onClose={() => setShowCollaPicker(false)}
         />
       )}
