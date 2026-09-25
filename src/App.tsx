@@ -13,7 +13,7 @@ import { SavedCalculationDetail } from './components/SavedCalculationDetail'
 import { saveCalculation, updateSavedCalculation } from './storage/savedCalculations'
 import { getCollaById } from './data/colles2026'
 import { formatPoints } from './utils/format'
-import { track } from './analytics'
+import { disableAnalytics, initAnalytics, track } from './analytics'
 import { Calculator, Table2, BookOpen, Share2, Trash2, AlertTriangle, Bookmark, X, Plus, ExternalLink } from 'lucide-react'
 
 const TABS: { id: TabId; label: string; icon: typeof Calculator }[] = [
@@ -22,6 +22,19 @@ const TABS: { id: TabId; label: string; icon: typeof Calculator }[] = [
   { id: 'taula', label: 'Taula 2026', icon: Table2 },
   { id: 'normes', label: 'Normes', icon: BookOpen },
 ]
+
+type AnalyticsConsent = 'accepted' | 'rejected' | null
+
+const ANALYTICS_CONSENT_KEY = 'calculadora-analytics-consent'
+
+function readAnalyticsConsent(): AnalyticsConsent {
+  try {
+    const value = localStorage.getItem(ANALYTICS_CONSENT_KEY)
+    return value === 'accepted' || value === 'rejected' ? value : null
+  } catch {
+    return null
+  }
+}
 
 function defaultSaveName(collaId?: string): string {
   const colla = collaId ? getCollaById(collaId) : undefined
@@ -59,6 +72,10 @@ export default function App() {
   const [savedToast, setSavedToast] = useState(false)
   const [selectedSavedId, setSelectedSavedId] = useState<string | null>(null)
   const [showAbout, setShowAbout] = useState(false)
+  const [analyticsConsent, setAnalyticsConsent] = useState<AnalyticsConsent>(readAnalyticsConsent)
+  const [showAnalyticsConsent, setShowAnalyticsConsent] = useState(() => readAnalyticsConsent() === null)
+  const [analyticsReady, setAnalyticsReady] = useState(false)
+  const lastPageViewTab = useRef<TabId | null>(null)
 
   const selectedColla = collaId ? getCollaById(collaId) : undefined
 
@@ -81,14 +98,39 @@ export default function App() {
     }
   }, [])
 
-  const initialView = useRef(true)
   useEffect(() => {
-    if (initialView.current) {
-      initialView.current = false
+    if (analyticsConsent !== 'accepted') {
+      setAnalyticsReady(false)
       return
     }
+
+    let isCurrent = true
+    void initAnalytics().then((ready) => {
+      if (isCurrent) setAnalyticsReady(ready)
+    })
+    return () => { isCurrent = false }
+  }, [analyticsConsent])
+
+  useEffect(() => {
+    if (analyticsConsent !== 'accepted' || !analyticsReady || lastPageViewTab.current === activeTab) return
+    lastPageViewTab.current = activeTab
     track('page_view', { page_path: `/${activeTab}`, page_title: activeTab })
-  }, [activeTab])
+  }, [activeTab, analyticsConsent, analyticsReady])
+
+  const handleAnalyticsConsent = (choice: Exclude<AnalyticsConsent, null>) => {
+    try {
+      localStorage.setItem(ANALYTICS_CONSENT_KEY, choice)
+    } catch {
+      // Keep the choice for this session even if browser storage is unavailable.
+    }
+    setAnalyticsConsent(choice)
+    setShowAnalyticsConsent(false)
+
+    if (choice === 'rejected') {
+      lastPageViewTab.current = null
+      disableAnalytics()
+    }
+  }
 
   const handleOpenPicker = (index: number) => setPickerRound(index)
   const handleClosePicker = () => setPickerRound(null)
@@ -254,7 +296,36 @@ export default function App() {
           Guillem Miró
         </button>
         {' '}· No oficial
+        {' '}·{' '}
+        <button className="app-footer-link" onClick={() => setShowAnalyticsConsent(true)}>
+          Cookies
+        </button>
       </footer>
+
+      {showAnalyticsConsent && (
+        <section className="analytics-consent" role="dialog" aria-label="Preferències de cookies">
+          <div className="analytics-consent-copy">
+            <h2>Preferències de cookies</h2>
+            <p>
+              Fem servir Google Analytics per entendre com s’utilitza la calculadora. Només
+              s’activarà si ho acceptes; pots canviar aquesta decisió quan vulguis.
+            </p>
+          </div>
+          <div className="analytics-consent-actions">
+            {analyticsConsent !== null && (
+              <button className="btn btn-clear" onClick={() => setShowAnalyticsConsent(false)}>
+                Tanca
+              </button>
+            )}
+            <button className="btn btn-clear" onClick={() => handleAnalyticsConsent('rejected')}>
+              Rebutja
+            </button>
+            <button className="btn btn-save" onClick={() => handleAnalyticsConsent('accepted')}>
+              Accepta
+            </button>
+          </div>
+        </section>
+      )}
 
       {showSaveDialog && (
         <div className="picker-overlay" onClick={() => setShowSaveDialog(false)}>

@@ -1693,6 +1693,46 @@ body {
   text-decoration-color: var(--accent);
 }
 
+/* ===== ANALYTICS CONSENT ===== */
+.analytics-consent {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(72px + var(--safe-bottom));
+  transform: translateX(-50%);
+  width: min(calc(100% - 24px), 456px);
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.analytics-consent-copy h2 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.analytics-consent-copy p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.analytics-consent-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+@media (min-width: 768px) {
+  .analytics-consent {
+    bottom: 20px;
+  }
+}
+
 /* ===== ABOUT MODAL ===== */
 .about-content {
   padding: 16px;
