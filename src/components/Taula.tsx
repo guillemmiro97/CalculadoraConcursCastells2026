@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { CASTELLS_2026 } from '../data/castells2026'
 import { formatPoints } from '../utils/format'
+import { matchesCastellQuery } from '../utils/castellSearch'
 import { Search } from 'lucide-react'
 
 export function Taula() {
   const [search, setSearch] = useState('')
 
-  const filtered = CASTELLS_2026.filter((c) => {
-    const q = search.toLowerCase()
-    if (!q) return true
-    return c.code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)
-  })
+  const filtered = CASTELLS_2026.filter((c) => matchesCastellQuery(c.code, c.name, search))
 
   return (
     <div className="taula-section">

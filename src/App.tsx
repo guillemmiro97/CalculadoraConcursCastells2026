@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { TabId, CastellResult, CastellCode } from './domain/types'
 import { useCalculator } from './hooks/useCalculator'
 import { RoundCard } from './components/RoundCard'
@@ -60,6 +60,25 @@ export default function App() {
   const [showAbout, setShowAbout] = useState(false)
 
   const selectedColla = collaId ? getCollaById(collaId) : undefined
+
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    const root = document.documentElement.style
+    const update = () => {
+      root.setProperty('--vv-height', `${vv.height}px`)
+      root.setProperty('--vv-top', `${vv.offsetTop}px`)
+    }
+    update()
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+    return () => {
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
+      root.removeProperty('--vv-height')
+      root.removeProperty('--vv-top')
+    }
+  }, [])
 
   const handleOpenPicker = (index: number) => setPickerRound(index)
   const handleClosePicker = () => setPickerRound(null)

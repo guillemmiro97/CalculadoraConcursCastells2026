@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import type { CastellCode, Round } from '../domain/types'
 import { getCastellAvailability } from '../domain/rules'
 import { formatPoints } from '../utils/format'
+import { matchesCastellQuery } from '../utils/castellSearch'
 import { Search, X, AlertCircle } from 'lucide-react'
 
 interface CastellPickerProps {
@@ -21,14 +22,7 @@ export function CastellPicker({ roundIndex, rounds, selectedCode, onSelect, onCl
     inputRef.current?.focus()
   }, [])
 
-  const filtered = availability.filter((c) => {
-    const q = search.toLowerCase()
-    if (!q) return true
-    return (
-      c.code.toLowerCase().includes(q) ||
-      c.name.toLowerCase().includes(q)
-    )
-  })
+  const filtered = availability.filter((c) => matchesCastellQuery(c.code, c.name, search))
 
   const handleSelect = useCallback((code: CastellCode, available: boolean) => {
     if (!available) return

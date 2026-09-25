@@ -136,8 +136,10 @@ export function SavedCalculationsList({ onSelect, onBackToCalc }: Props) {
           </div>
 
           <div className="saved-list">
-            {filteredAndSorted.map((calc) => {
+            {filteredAndSorted.map((calc, index) => {
               const scoring = calculateScore(calc.rounds)
+              const prevTotal = index > 0 ? calculateScore(filteredAndSorted[index - 1].rounds).total : null
+              const gap = prevTotal === null ? 0 : prevTotal - scoring.total
               const colla = calc.collaId ? getCollaById(calc.collaId) : undefined
               const countedSummary = scoring.counted
                 .map((c) => `${c.code} ${c.result === 'carregat' ? 'C' : 'D'}`)
@@ -165,7 +167,14 @@ export function SavedCalculationsList({ onSelect, onBackToCalc }: Props) {
                           {colla && <CollaAvatar colla={colla} size="sm" />}
                           <span className="saved-card-name">{calc.name}</span>
                         </div>
-                        <span className="saved-card-score">{formatPoints(scoring.total)} punts</span>
+                        <div className="saved-card-score-row">
+                          <span className="saved-card-score">{formatPoints(scoring.total)} punts</span>
+                          {gap !== 0 && (
+                            <span className={`saved-card-delta ${gap < 0 ? 'ahead' : ''}`}>
+                              {gap > 0 ? `falten ${formatPoints(gap)}` : `+${formatPoints(-gap)}`}
+                            </span>
+                          )}
+                        </div>
                         {countedSummary && <span className="saved-card-summary">{countedSummary}</span>}
                       </div>
                       <div className="saved-card-actions" onClick={(e) => e.stopPropagation()}>
