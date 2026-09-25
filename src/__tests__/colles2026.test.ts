@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { colles2026, getCollaById, getCollesBySession, searchColles } from '../data/colles2026'
 
 describe('Colles 2026 dataset', () => {
-  it('contains exactly 42 participating colles', () => {
-    expect(colles2026).toHaveLength(42)
+  it('contains exactly 48 colles', () => {
+    expect(colles2026).toHaveLength(48)
   })
 
   it('all IDs are unique', () => {
     const ids = colles2026.map((c) => c.id)
-    expect(new Set(ids).size).toBe(42)
+    expect(new Set(ids).size).toBe(48)
   })
 
   it('every colla has required metadata', () => {
@@ -19,7 +19,7 @@ describe('Colles 2026 dataset', () => {
       expect(c.shirtColorName).toBeTruthy()
       expect(c.shirtColorHex).toMatch(/^#[0-9a-f]{6}$/i)
       expect(c.concurs2026.participating).toBe(true)
-      expect(c.concurs2026.session).toMatch(/^(diumenge|dissabte|torredembarra)$/)
+      expect(c.concurs2026.session).toMatch(/^(diumenge|dissabte|torredembarra|internacional)$/)
     }
   })
 
@@ -36,6 +36,18 @@ describe('Colles 2026 dataset', () => {
   it('has exactly 12 torredembarra colles', () => {
     const torredembarra = colles2026.filter((c) => c.concurs2026.session === 'torredembarra')
     expect(torredembarra).toHaveLength(12)
+  })
+
+  it('has exactly 6 internacional colles', () => {
+    const internacional = colles2026.filter((c) => c.concurs2026.session === 'internacional')
+    expect(internacional).toHaveLength(6)
+    const ids = internacional.map((c) => c.id)
+    expect(ids).toContain('castellers-of-london')
+    expect(ids).toContain('castellers-de-paris')
+    expect(ids).toContain('xiquets-de-copenhagen')
+    expect(ids).toContain('castellers-dandorra')
+    expect(ids).toContain('colla-castellera-de-madrid')
+    expect(ids).toContain('castellers-de-lo-prado')
   })
 
   it('does NOT contain Minyons de Terrassa', () => {
@@ -92,7 +104,7 @@ describe('searchColles', () => {
   })
 
   it('empty query returns all', () => {
-    expect(searchColles('')).toHaveLength(42)
+    expect(searchColles('')).toHaveLength(48)
   })
 
   it('is accent-insensitive', () => {

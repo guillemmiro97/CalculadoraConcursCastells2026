@@ -404,6 +404,62 @@ export const colles2026: Colla[] = [
     shirtColorHex: '#1a7a3a',
     concurs2026: { participating: true, session: 'torredembarra' },
   },
+
+  // === DISSABTE 3 D'OCTUBRE — PLAÇA DE LA FONT (6) · V DIADA INTERNACIONAL ===
+  {
+    id: 'castellers-of-london',
+    name: 'Castellers of London',
+    shortName: 'London',
+    municipality: 'Londres (Regne Unit)',
+    shirtColorName: 'Vermell',
+    shirtColorHex: '#c42020',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
+  {
+    id: 'castellers-de-paris',
+    name: 'Castellers de París',
+    shortName: 'París',
+    municipality: 'París (França)',
+    shirtColorName: 'Blau',
+    shirtColorHex: '#1a5fb4',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
+  {
+    id: 'xiquets-de-copenhagen',
+    name: 'Xiquets de Copenhagen',
+    shortName: 'Copenhagen',
+    municipality: 'Copenhaguen (Dinamarca)',
+    shirtColorName: 'Blau marí',
+    shirtColorHex: '#1a3a6b',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
+  {
+    id: 'castellers-dandorra',
+    name: "Castellers d'Andorra",
+    shortName: 'Andorra',
+    municipality: 'Santa Coloma (Andorra)',
+    shirtColorName: 'Bordeus',
+    shirtColorHex: '#6a1a2a',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
+  {
+    id: 'colla-castellera-de-madrid',
+    name: 'Colla Castellera de Madrid',
+    shortName: 'Madrid',
+    municipality: 'Madrid (Espanya)',
+    shirtColorName: 'Vermell',
+    shirtColorHex: '#c42020',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
+  {
+    id: 'castellers-de-lo-prado',
+    name: 'Castellers de Lo Prado',
+    shortName: 'Lo Prado',
+    municipality: 'Lo Prado (Xile)',
+    shirtColorName: 'Verd',
+    shirtColorHex: '#1a7a3a',
+    concurs2026: { participating: true, session: 'internacional' },
+  },
 ]
 
 const collesById = new Map(colles2026.map((c) => [c.id, c]))
@@ -436,4 +492,5 @@ export const SESSION_LABELS: Record<ConcursSession, string> = {
   diumenge: 'Diumenge · Tarraco Arena',
   dissabte: 'Dissabte · Tarraco Arena',
   torredembarra: 'Diumenge · Torredembarra',
+  internacional: 'Diada Internacional · plaça de la Font',
 }

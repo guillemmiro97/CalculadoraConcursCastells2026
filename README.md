@@ -30,7 +30,7 @@ Obre http://localhost:5173 al navegador.
 - **Millors tres castells**: Només compten les tres millors construccions vàlides, amb desglossament de comptats i exclosos.
 - **Selecció ràpida**: Picker de castells amb cerca per codi, nom o tipus.
 - **Validació de regles**: Bloqueja combinacions invàlides segons el Protocol de Plaça 2026.
-- **Selecció de colla**: 42 colles participants amb cerca i agrupació per sessió.
+- **Selecció de colla**: 42 colles del Concurs + 6 de la Diada Internacional, amb cerca i agrupació per sessió.
 - **Taula de puntuacions**: Consulta les 47 construccions oficials amb punts carregat/descarregat.
 - **Normes resum**: Resum de les regles clau amb enllaços a les fonts oficials.
 - **Desament**: Fins a 100 càlculs desats amb filtre, ordenació, rebombrament i restauració.
@@ -83,7 +83,7 @@ src/
 │   └── rules.ts             # Restriccions d'incompatibilitat, intents, rondes 4/5
 ├── data/                    # Dades estàtiques
 │   ├── castells2026.ts      # 47 construccions amb punts
-│   └── colles2026.ts        # 42 colles per sessió
+│   └── colles2026.ts        # 42 colles del Concurs + 6 internacionals
 ├── hooks/
 │   └── useCalculator.ts     # Hook principal d'estat
 ├── storage/

@@ -42,7 +42,7 @@ export interface ScoringResult {
 
 export type TabId = 'calculadora' | 'desats' | 'taula' | 'normes'
 
-export type ConcursSession = 'torredembarra' | 'dissabte' | 'diumenge'
+export type ConcursSession = 'torredembarra' | 'dissabte' | 'diumenge' | 'internacional'
 
 export interface Colla {
   id: string

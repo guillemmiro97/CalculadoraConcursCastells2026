@@ -10,7 +10,7 @@ interface CollaPickerProps {
   onClose: () => void
 }
 
-const SESSION_ORDER: ConcursSession[] = ['diumenge', 'dissabte', 'torredembarra']
+const SESSION_ORDER: ConcursSession[] = ['diumenge', 'dissabte', 'torredembarra', 'internacional']
 
 export function CollaPicker({ selectedId, onSelect, onClose }: CollaPickerProps) {
   const [search, setSearch] = useState('')
