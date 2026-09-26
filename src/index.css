@@ -593,7 +593,7 @@ body {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 15px;
+  font-size: 16px;
   background: transparent;
   color: var(--text);
 }
@@ -703,7 +703,7 @@ body {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 15px;
+  font-size: 16px;
   background: transparent;
   color: var(--text);
 }
@@ -949,7 +949,7 @@ body {
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 15px;
+  font-size: 16px;
   background: var(--bg);
   color: var(--text);
   outline: none;
@@ -1167,7 +1167,7 @@ body {
   padding: 6px 10px;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 16px;
   outline: none;
   min-height: 36px;
   background: var(--bg);
@@ -1584,7 +1584,7 @@ body {
   padding: 8px 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 13px;
+  font-size: 16px;
   background: var(--bg-card);
   color: var(--text);
   min-height: 38px;
